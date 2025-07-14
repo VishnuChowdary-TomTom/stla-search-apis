@@ -1,0 +1,35 @@
+syntax = "proto3";
+
+package stellantis.geo.platform.search.v1;
+
+import "buf/validate/validate.proto";
+import "common/coordinate.proto";
+
+option java_multiple_files = true;
+option java_package = "com.stellantis.apis.search";
+
+message Vicinity {
+  oneof place {
+    common.v1.Coordinate point = 1;
+    string locality = 2;
+  }
+  optional double radius = 3 [
+    (buf.validate.field).double.gte = 1.0,
+    (buf.validate.field).double.lte = 50000.0
+  ];
+}
+
+message Route {
+  repeated common.v1.Coordinate coordinates = 1;
+  optional double radius = 2;
+}
+
+message Polygon {
+  repeated common.v1.Coordinate areas = 1;
+}
+
+message Address {
+  string formatted_address = 1;
+
+  map<string, string> address_components = 2;
+}

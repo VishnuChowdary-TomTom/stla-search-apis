@@ -1,0 +1,251 @@
+syntax = "proto3";
+
+package stellantis.geo.platform.domain.eves.v1;
+
+import "common/date_time_descriptor.proto";
+import "common/money.proto";
+import "google/protobuf/empty.proto";
+import "search/dynamic_criteria.proto";
+
+option java_multiple_files = true;
+option java_package = "com.stellantis.apis.eves";
+
+message EvChargingStation {
+  repeated EvCharger chargers = 1;
+}
+
+message EvCharger {
+  string id = 1;
+  EvOwnership ownership = 2;
+  EvStatus status = 3;
+  repeated EvCapabilities capabilities = 4;
+  optional EvAccessType access_type = 5;
+
+  repeated EvConnector connectors = 6;
+  repeated EvChargersFeature features = 7;
+  repeated EvChargersPaymentMethod payment_methods = 8;
+
+  common.v1.DateTimeDescriptor last_update_time = 99;
+}
+
+message EvOwnership {
+  string emsp_value = 2 [deprecated = true];
+  optional string operator = 3;
+  optional string sub_operator = 4;
+  repeated search.v1.DynamicCriteriaEntry emsp = 5;
+}
+
+message EvConnector {
+  string id = 1;
+
+  EvConnectorFormat format = 2;
+  EvConnectorType connector_type = 3;
+  EvPowerType power_type = 4;
+  optional int32 max_amperage = 5;
+  optional int32 max_voltage = 6;
+  optional double max_charge_rate_kw = 7;
+
+  repeated EvTariff tariffs = 8;
+
+  common.v1.DateTimeDescriptor last_update_time = 99;
+}
+
+enum EvPowerType {
+  EV_POWER_TYPE_UNSPECIFIED = 0;
+  EV_POWER_TYPE_AC_1_PHASE = 1;
+  EV_POWER_TYPE_AC_3_PHASE = 2;
+  EV_POWER_TYPE_DC = 3;
+}
+
+message EvTariff {
+  repeated EvTariffElement elements = 1;
+
+  common.v1.DateTimeDescriptor last_update_time = 99;
+}
+
+message EvTariffElement {
+  repeated EvPriceComponent price_components = 1;
+  optional EvTariffRestriction restriction = 2;
+}
+
+message EvPriceComponent {
+  common.v1.Money price = 1;
+  oneof dimension {
+    google.protobuf.Empty flat = 2;
+    EvEnergyDimension energy = 3;
+    EvTimeDimension time = 4;
+    EvTimeDimension parking_time = 5;
+  }
+}
+
+message EvEnergyDimension {
+  sint32 wh_step = 1;
+}
+
+message EvTimeDimension {
+  common.v1.DateTimeDescriptor duration_step = 1;
+}
+
+message EvTariffRestriction {
+  repeated common.v1.DateTimeDescriptor date_times = 1;
+  optional float min_kwh = 3;
+  optional float max_kwh = 4;
+  optional float min_power_kw = 5;
+  optional float max_power_kw = 6;
+  optional common.v1.DateTimeDescriptor duration = 7;
+}
+
+enum EvAccessType {
+  EV_ACCESS_TYPE_UNSPECIFIED = 0;
+  EV_ACCESS_TYPE_PUBLIC = 1;
+  EV_ACCESS_TYPE_PRIVATE = 2;
+}
+
+enum EvConnectorType {
+  EV_CONNECTOR_TYPE_UNSPECIFIED = 0;
+  EV_CONNECTOR_TYPE_CHADEMO = 1;
+  EV_CONNECTOR_TYPE_DOMESTIC_A = 2;
+  EV_CONNECTOR_TYPE_DOMESTIC_B = 3;
+  EV_CONNECTOR_TYPE_DOMESTIC_C = 4;
+  EV_CONNECTOR_TYPE_DOMESTIC_D = 5;
+  EV_CONNECTOR_TYPE_DOMESTIC_E = 6;
+  EV_CONNECTOR_TYPE_DOMESTIC_F = 7;
+  EV_CONNECTOR_TYPE_DOMESTIC_G = 8;
+  EV_CONNECTOR_TYPE_DOMESTIC_H = 9;
+  EV_CONNECTOR_TYPE_DOMESTIC_I = 10;
+  EV_CONNECTOR_TYPE_DOMESTIC_J = 11;
+  EV_CONNECTOR_TYPE_DOMESTIC_K = 12;
+  EV_CONNECTOR_TYPE_DOMESTIC_L = 13;
+  EV_CONNECTOR_TYPE_DOMESTIC_M = 14;
+  EV_CONNECTOR_TYPE_DOMESTIC_N = 15;
+  EV_CONNECTOR_TYPE_DOMESTIC_O = 16;
+  EV_CONNECTOR_TYPE_GBT_AC = 17;
+  EV_CONNECTOR_TYPE_GBT_DC = 18;
+  EV_CONNECTOR_TYPE_IEC_60309_2_SINGLE_16 = 19;
+  EV_CONNECTOR_TYPE_IEC_60309_2_THREE_16 = 20;
+  EV_CONNECTOR_TYPE_IEC_60309_2_THREE_32 = 21;
+  EV_CONNECTOR_TYPE_IEC_60309_2_THREE_64 = 22;
+  EV_CONNECTOR_TYPE_IEC_62196_T1 = 23;
+  EV_CONNECTOR_TYPE_IEC_62196_T1_COMBO = 24;
+  EV_CONNECTOR_TYPE_IEC_62196_T2 = 25;
+  EV_CONNECTOR_TYPE_IEC_62196_T2_COMBO = 26;
+  EV_CONNECTOR_TYPE_IEC_62196_T3A = 27;
+  EV_CONNECTOR_TYPE_IEC_62196_T3C = 28;
+  EV_CONNECTOR_TYPE_NEMA_5_20 = 29;
+  EV_CONNECTOR_TYPE_NEMA_6_30 = 30;
+  EV_CONNECTOR_TYPE_NEMA_10_30 = 31;
+  EV_CONNECTOR_TYPE_NEMA_10_50 = 32;
+  EV_CONNECTOR_TYPE_NEMA_14_30 = 33;
+  EV_CONNECTOR_TYPE_NEMA_14_50 = 34;
+  EV_CONNECTOR_TYPE_PANTOGRAPH_BOTTOM_UP = 35;
+  EV_CONNECTOR_TYPE_PANTOGRAPH_BOTTOM_DOWN = 36;
+  EV_CONNECTOR_TYPE_TESLA_R = 37;
+  EV_CONNECTOR_TYPE_TESLA_S = 38;
+}
+
+enum EvConnectorFormat {
+  EV_CONNECTOR_FORMAT_UNSPECIFIED = 0;
+  EV_CONNECTOR_FORMAT_SOCKET = 1;
+  EV_CONNECTOR_FORMAT_CABLE = 2;
+}
+
+enum EvStatus {
+  EV_STATUS_UNSPECIFIED = 0;
+  EV_STATUS_AVAILABLE = 1;
+  EV_STATUS_BLOCKED = 2;
+  EV_STATUS_CHARGING = 3;
+  EV_STATUS_INOPERATIVE = 4;
+  EV_STATUS_OUT_OF_ORDER = 5;
+  EV_STATUS_PLANNED = 6;
+  EV_STATUS_REMOVED = 7;
+  EV_STATUS_RESERVED = 8;
+  EV_STATUS_UNKNOWN = 9;
+}
+
+enum EvCapabilities {
+  EV_CAPABILITIES_UNSPECIFIED = 0;
+  EV_CAPABILITIES_CHARGING_PROFILE_CAPABLE = 1;
+  EV_CAPABILITIES_CREDIT_CARD_PAYABLE = 2;
+  EV_CAPABILITIES_REMOTE_START_STOP_CAPABLE = 3;
+  EV_CAPABILITIES_RESERVABLE = 4;
+  EV_CAPABILITIES_RFID_READER = 5;
+  EV_CAPABILITIES_UNLOCK_CAPABLE = 6;
+}
+
+// Parameters for Electric Vehicle Routing
+message EVRoutingParameters {
+  // specify initial charge of vehicle in Wh (watt-hours) at the beginning of the route. The default value is equal to ev_max_charge.
+  optional double ev_initial_charge = 1;
+  //Required parameter that defines the maximum possible charge of vehicle in Wh (watt-hours).
+  double ev_max_charge = 2;
+  // Required parameter that specifies in pairs the energy consumption in watt-hours per kilometer at a given free flow speed in kph.
+  repeated EVEnergyConsumptionCurve free_flow_energy_consumption_curve = 3;
+  // Required parameter that specifies in pairs the energy consumption in watt-hours per kilometer at a given speed in kph under traffic condition
+  repeated EVEnergyConsumptionCurve traffic_energy_consumption_curve = 4;
+  // Optional parameter to define the measure of the continuous power draw of the auxiliary systems (e.g heating, radio, air conditioning) in watts.
+  optional double auxiliary_consumption = 5;
+  // amount of energy an electric vehicle consumes from increasing elevation(watts-hours per meter). Max value is 1000 Wh/m and min value is 0 Wh/m.
+  optional double ev_ascent_consumption = 6;
+  // amount of energy an electric vehicle gains from decreasing elevation(watts-hours per meter). Max value is 1000 Wh/m and min value is 0 Wh/m.
+  optional double ev_descent_recovery = 7;
+  // percentage of energy that goes back to battery during descent.Default 0.7
+  optional double ev_regeneration_efficiency = 8;
+  // Ev charging paramaters used to find teh charging station and calculate charging time.
+  optional EVChargingParameters ev_charging_parameters = 9;
+  // define the minimum battery charge required at the final route destination (Wh). The default value is 10% of ev_max_charge.
+  optional double ev_min_charge_at_destination = 10;
+  // Optional parameter to define the minimum charge when arriving at the charging station (Wh). The default value is 10% of ev_max_charge.
+  optional double ev_min_charge_at_charging_station = 11;
+  // Optional parameter to specify whether EV route should add charging stops to make the route rechable.
+  optional bool ensureReachability = 12;
+}
+
+message EVEnergyConsumptionCurve {
+  double speed = 1; // vehicle speed in km/h
+  double consumption = 2; // energy consumption in watt-hours
+}
+
+message EVChargingParameters {
+  // specifies the maximum battery charging rate (W) at a given charge level (Wh) in a list of pairs.
+  repeated EVBatteryChargingCurve charging_curve = 1;
+  // specifies the maximum battery charging rate (W) at a specified charge level (Wh) in a list of pairs when the battery is in an unconditioned state (for example, cold).
+  repeated EVBatteryChargingCurve unconditioned_charging_curve = 2;
+  // Optional parameter that defines the time in sec it would take for the vehicle's battery to condition.
+  optional double pre_conditioning_time = 3;
+  // Required parameter that defines the compatible connector-types for the vehicle.
+  repeated EvConnectorType ev_connector_types = 4;
+  // max voltage supported by battery in voltage
+  optional double max_voltage = 5;
+  // max current supported by battery in amp
+  optional double max_current = 6;
+  // max power supported by battery in watt
+  optional double max_charging_power = 7;
+  // specify maximum AC charging power(W) that can be delivered by the onboard vehicle charger.
+  optional double max_ac_charging_power = 8;
+  // efficiency factor for charging
+  optional double efficiency = 9;
+  // Baseload of the battery in watt.
+  optional double baseload = 10;
+  // Addiotional time needed(in sec) after and before charging.
+  optional double charging_time_offset = 11;
+}
+
+message EVBatteryChargingCurve {
+  double state_of_charge = 1; // charge level in watt-hour
+  double max_power = 2; // maximum battery charging rate in watt.
+}
+
+enum EvChargersFeature {
+  EV_CHARGERS_FEATURE_UNSPECIFIED = 0;
+  EV_CHARGERS_FEATURE_IN_STLA_NETWORK = 1;
+  EV_CHARGERS_FEATURE_PLUG_AND_CHARGE = 2;
+}
+
+enum EvChargersPaymentMethod {
+  EV_CHARGERS_PAYMENT_METHOD_UNSPECIFIED = 0;
+  EV_CHARGERS_PAYMENT_METHOD_CREDIT_CARD = 1;
+  EV_CHARGERS_PAYMENT_METHOD_DEBIT_CARD = 2;
+  EV_CHARGERS_PAYMENT_METHOD_RFID_CARD = 3;
+  EV_CHARGERS_PAYMENT_METHOD_MOBILE_APPLICATION = 4;
+}
+

@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package stellantis.geo.platform.search.v1;
+
+import "search/request.proto";
+import "search/response.proto";
+
+option java_multiple_files = true;
+option java_package = "com.stellantis.apis.search";
+
+service DestinationService {
+  // A customer method due to need of encoding advanced query semantics.
+  rpc Search(SearchRequest) returns (SearchResponse);
+
+  rpc GetById(GetByIdRequest) returns (GetByIdResponse);
+
+  rpc GetDynamicSearchCriteria(GetDynamicSearchCriteriaRequest) returns (GetDynamicSearchResponse);
+}

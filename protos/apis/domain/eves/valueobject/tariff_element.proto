@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package stellantis.geo.platform.domain.eves.v1.valueobject;
+
+import "domain/eves/valueobject/price_component.proto";
+import "domain/eves/valueobject/tariff_restrictions.proto";
+
+option java_multiple_files = true;
+option java_package = "com.stellantis.apis.eves.valueobject";
+
+message TariffElement {
+  repeated PriceComponent priceComponents = 1;
+  TariffRestrictions restrictions = 2;
+  optional string other_fields_json = 3;
+}

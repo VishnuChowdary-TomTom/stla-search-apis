@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package stellantis.geo.platform.domain.eves.v1.enums;
+
+option java_multiple_files = true;
+option java_package = "com.stellantis.apis.eves.enums";
+
+enum ImageCategory {
+  IMAGE_CATEGORY_UNSPECIFIED = 0;
+  IMAGE_CATEGORY_ENTRANCE = 1;
+  IMAGE_CATEGORY_LOCATION = 2;
+  IMAGE_CATEGORY_NETWORK = 3;
+  IMAGE_CATEGORY_OPERATOR = 4;
+  IMAGE_CATEGORY_OTHER = 5;
+  IMAGE_CATEGORY_OWNER = 6;
+  IMAGE_CATEGORY_CHARGER = 7;
+}

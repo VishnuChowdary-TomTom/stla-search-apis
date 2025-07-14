@@ -1,0 +1,165 @@
+syntax = "proto3";
+
+import "common/coordinate.proto";
+import "search/structs.proto";
+
+package stellantis.geo.platform.search.v1;
+
+option java_multiple_files = true;
+option java_package = "com.stellantis.apis.search.autocomplete";
+
+/*
+  Autocomplete RPC Service. Use it to get performant suggestions for a given text query.
+*/
+service AutocompleteService {
+
+  /*
+    Request suggestions for a given text query. The `AutocompleteRequest` allows specifying query configurations, while
+    the `AutocompleteResponse` contains a list of suggestions with additional details about each one.
+  */
+  rpc Autocomplete(AutocompleteRequest) returns (AutocompleteResponse);
+}
+
+/*
+  Request message for the `Autocomplete` RPC in the `AutocompleteService`.
+*/
+message AutocompleteRequest {
+  /*
+    A text query to get suggestions for. For generic suggestions not biased by any text, leave this field as an empty
+    string. For the sake of clarity, the generic suggestions are still relevant in other terms like other request
+    parameters or authenticated client (determined by the authentication method).
+  */
+  string text_query = 1;
+
+  /*
+    Describes current requester gps position.
+    If in_vicinity won't be provided then requester_position will be used to fulfill request.
+    If both are set, then in_vicinity will be used to fulfill request.
+  */
+  common.v1.Coordinate requester_position = 2;
+
+  /*
+    Specifies region which will be used as context for autocomplete. Useful when user want more contextual suggestions for different place than it actually is.
+    If not specified then requester_position will be used as contextual position.
+    NOTE: Locality from Vicinity message currently is not supported!
+  */
+  optional Vicinity in_vicinity = 3;
+
+  /*
+    The language code as per IETF BCP 47 determines the language of the suggestions returned. If the language is not
+    supported, the error gRPC status code will be returned.
+  */
+  string language_code = 4;
+}
+
+/*
+  Request message for the `Autocomplete` RPC in the `AutocompleteService`.
+*/
+message AutocompleteResponse {
+  repeated AutocompleteSuggestion suggestions = 1;
+}
+
+/*
+  Message represents a human readable suggestion with a primary as well as optional secondary text.
+
+  Suggestion might be explicit or implicit. We name suggestion explicit if, and only if, the `primary_text` is partially
+  or fully matched by the `text_query` of the `AutocompleteRequest`. All other cases are considered implicit, with most
+  common example being a suggestion semantically matching the `text_query`. While explicit queries are less fuzzy and
+  easier to understand, the implicit matches leaves the room for more sophisticated suggestion search techniques.
+
+  Note, the content of texts is very sensitive to `language_code` of the `AutocompleteRequest`.
+*/
+message AutocompleteSuggestion {
+  /*
+    The primary text of the suggestion. It is a human readable description of matched `text_query` of the
+    `AutocompleteRequest`. If the match is explicit the `primary_text_matches`. More on explicit vs. implicit in the
+    `AutocompleteSuggestion` documentation.
+  */
+  string primary_text = 1;
+  /*
+    The secondary text of the suggestion is optional and represents a supplementary human readable description. The
+    content of this field is heavily dependent on suggestions underlying data. When implementation populates this field
+    it aims to increase distinction of the suggestion. A common example is adding the address to the explicit and
+    popular name stored in `primary_text`. More on explicit vs. implicit in the `AutocompleteSuggestion` documentation.
+  */
+  optional string secondary_text = 2;
+
+  /*
+    Contains all found matching sub string ranges of the `text_query` from the `AutocompleteRequest` in the
+    `primary_text`. Non empty for explicit matches and always empty for implicit matches.
+  */
+  repeated MatchingRange primary_text_matches = 3;
+
+  /*
+    Represents additional details depending on the type of suggestion. Also, it can be utilized as a hint to know the
+    overall type of suggestion. Depending of response, one of type must be filled.
+  */
+  oneof details {
+    SuggestedPlace place = 4;
+    SuggestedQuery query = 5;
+  }
+}
+
+/*
+  A details message representing a place. Usually it is an entity in real world or an
+  administrative entity like address, city, etc. To determine use the `types` field.
+  Use the `id` field to get more details about the place.
+
+  If the place was recently interacted with by the authenticated client the field
+  called `interacted_recently` will be set to true. The "interaction" meaning is
+  arbitrary and might be a result of multiple other systems reporting it.
+*/
+message SuggestedPlace {
+  /*
+    The unique identifier of the place. Use this identifier to get more details about the place for example by
+    `GetByIdRequest` message.
+  */
+  string id = 1;
+
+  /*
+    A beeline distance denominated in meters from the `AutocompleteRequest` `Vicinity`. It is subject to implementation
+    on how the distance is calculated. Number is always positive or 0.
+  */
+  optional int32 beeline_distance_meters = 2;
+
+  /*
+    If the place was recently interacted with by the authenticated client the field will be set to true. The
+    "interaction" meaning is arbitrary and might be a result of multiple other systems interactions on behalf of the
+    authenticated client.
+  */
+  bool interacted_recently = 3;
+
+  /*
+    The types of the place. A list cannot be empty.
+    Types are related to Google types and all possible values are listed here:
+    https://developers.google.com/maps/documentation/places/web-service/place-types
+  */
+  repeated string types = 4;
+}
+
+/*
+  A details message representing a query to search with.
+*/
+message SuggestedQuery {
+  /*
+    The suggestion can be a query suggested by the system or a recent query associated with the authenticated client
+    (determined by the authentication method). The "recent" meaning is arbitrary and might be a result of multiple
+    systems interactions on behalf od the authenticated client.
+  */
+  bool queried_recently = 1;
+}
+
+/*
+  An auxiliary information describing a range of a string by inclusive start index and exclusive end index.
+*/
+message MatchingRange {
+  /*
+    The zero-indexed and inclusive start index of the matched string.
+  */
+  int32 start_offset_inclusive = 1;
+
+  /*
+    The zero-indexed and exclusive end index of the matched string.
+  */
+  int32 end_offset_exclusive = 2;
+}

@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package stellantis.geo.platform.domain.eves.v1.valueobject;
+
+import "domain/eves/enums/token_type.proto";
+
+option java_multiple_files = true;
+option java_package = "com.stellantis.apis.eves.valueobject";
+
+message PublishTokenType {
+  string uid = 1;
+  enums.TokenType type = 2;
+  string visual_number = 3;
+  string issuer = 4;
+  string group_id = 5;
+  optional string other_fields_json = 6;
+}

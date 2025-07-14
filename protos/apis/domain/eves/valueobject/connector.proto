@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+package stellantis.geo.platform.domain.eves.v1.valueobject;
+
+import "domain/eves/enums/power_type.proto";
+import "domain/eves/enums/connector_type.proto";
+import "domain/eves/enums/connector_format.proto";
+import "common/date_time_descriptor.proto";
+
+option java_multiple_files = true;
+option java_package = "com.stellantis.apis.eves.valueobject";
+
+message Connector {
+  string id = 1;
+  enums.ConnectorType standard = 2;
+  enums.ConnectorFormat format = 3;
+  eves.v1.enums.PowerType power_type = 4;
+  int32 max_voltage = 5;
+  int32 max_amperage = 6;
+  int32 max_electric_power = 7;
+  repeated string tariff_ids = 8;
+  string terms_and_conditions = 9;
+  common.v1.DateTimeDescriptor last_updated = 10;
+  optional string other_fields_json = 11;
+}

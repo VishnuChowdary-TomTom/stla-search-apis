@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package stellantis.geo.platform.domain.eves.v1.enums;
+
+option java_multiple_files = true;
+option java_package = "com.stellantis.apis.eves.enums";
+
+enum TariffDimensionType {
+  TARIFF_DIMENSION_TYPE_UNSPECIFIED = 0;
+  TARIFF_DIMENSION_TYPE_ENERGY = 1;
+  TARIFF_DIMENSION_TYPE_FLAT = 2;
+  TARIFF_DIMENSION_TYPE_PARKING_TIME = 3;
+  TARIFF_DIMENSION_TYPE_TIME = 4;
+}

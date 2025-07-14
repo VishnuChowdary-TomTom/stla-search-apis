@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package stellantis.geo.platform.domain.eves.v1.enums;
+
+option java_multiple_files = true;
+option java_package = "com.stellantis.apis.eves.enums";
+
+enum ParkingRestriction {
+  PARKING_RESTRICTION_UNSPECIFIED = 0;
+  PARKING_RESTRICTION_PLUGGED = 1;
+  PARKING_RESTRICTION_DISABLED = 2;
+  PARKING_RESTRICTION_CUSTOMERS = 3;
+  PARKING_RESTRICTION_MOTORCYCLES = 4;
+  PARKING_RESTRICTION_EV_ONLY = 5;
+}

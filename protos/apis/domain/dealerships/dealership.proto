@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package stellantis.geo.platform.domain.dealerships.v1;
+
+option java_multiple_files = true;
+option java_package = "com.stellantis.apis.dealerships";
+
+import "search/dynamic_criteria.proto";
+
+message Dealership {
+  search.v1.DynamicCriteriaEntry car_brand = 1 [deprecated = true];
+  repeated search.v1.DynamicCriteriaEntry car_brands = 2;
+}

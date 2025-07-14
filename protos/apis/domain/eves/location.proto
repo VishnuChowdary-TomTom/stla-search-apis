@@ -1,0 +1,49 @@
+syntax = "proto3";
+
+package stellantis.geo.platform.domain.eves.v1;
+
+import "common/coordinate.proto";
+import "common/date_time_descriptor.proto";
+import "domain/eves/enums/facility.proto";
+import "domain/eves/enums/parking_type.proto";
+import "domain/eves/valueobject/additional_geo_location.proto";
+import "domain/eves/valueobject/business_details.proto";
+import "domain/eves/valueobject/display_text.proto";
+import "domain/eves/valueobject/energy_mix.proto";
+import "domain/eves/valueobject/evse.proto";
+import "domain/eves/valueobject/hours.proto";
+import "domain/eves/valueobject/image.proto";
+import "domain/eves/valueobject/publish_token_type.proto";
+
+option java_multiple_files = true;
+option java_package = "com.stellantis.apis.eves";
+
+message Location {
+  string country_code = 1;
+  string party_id = 2;
+  string id = 3;
+  bool publish = 4;
+  repeated valueobject.PublishTokenType publish_allowed_to = 5;
+  string name = 6;
+  string address = 7;
+  string city = 8;
+  string postal_code = 9;
+  string state = 10;
+  string country = 11;
+  common.v1.Coordinate coordinates = 12;
+  repeated valueobject.AdditionalGeoLocation related_locations = 13;
+  enums.ParkingType parking_type = 14;
+  repeated valueobject.Evse evses = 15;
+  repeated valueobject.DisplayText directions = 16;
+  valueobject.BusinessDetails operator = 17;
+  valueobject.BusinessDetails suboperator = 18;
+  valueobject.BusinessDetails owner = 19;
+  repeated enums.Facility facilities = 20;
+  string time_zone = 21;
+  valueobject.Hours opening_times = 22;
+  bool charging_when_closed = 23;
+  repeated valueobject.Image images = 24;
+  valueobject.EnergyMix energy_mix = 25;
+  common.v1.DateTimeDescriptor last_updated = 26;
+  optional string other_fields_json = 27;
+}

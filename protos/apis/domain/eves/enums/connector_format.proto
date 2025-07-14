@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+package stellantis.geo.platform.domain.eves.v1.enums;
+
+option java_multiple_files = true;
+option java_package = "com.stellantis.apis.eves.enums";
+
+enum ConnectorFormat {
+  CONNECTOR_FORMAT_UNSPECIFIED = 0;
+  CONNECTOR_FORMAT_SOCKET = 1;
+  CONNECTOR_FORMAT_CABLE = 2;
+}

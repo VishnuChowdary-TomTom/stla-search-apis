@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+package stellantis.geo.platform.domain.eves.v1;
+
+import "common/date_time_descriptor.proto";
+import "domain/eves/enums/tariff_type.proto";
+import "domain/eves/valueobject/display_text.proto";
+import "domain/eves/valueobject/price.proto";
+import "domain/eves/valueobject/tariff_element.proto";
+import "domain/eves/valueobject/energy_mix.proto";
+
+option java_multiple_files = true;
+option java_package = "com.stellantis.apis.eves";
+
+message Tariff {
+  string countryCode = 1;
+  string partyId = 2;
+  string id = 3;
+  string currency = 4;
+  enums.TariffType type = 5;
+  repeated valueobject.DisplayText tariffAltText = 6;
+  string tariffAltUrl = 7;
+  valueobject.Price minPrice = 8;
+  valueobject.Price maxPrice = 9;
+  repeated valueobject.TariffElement elements = 10;
+  common.v1.DateTimeDescriptor startDateTime = 11;
+  common.v1.DateTimeDescriptor endDateTime = 12;
+  valueobject.EnergyMix energyMix = 13;
+  common.v1.DateTimeDescriptor lastUpdated = 14;
+  optional string other_fields_json = 27;
+}

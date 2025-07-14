@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package stellantis.geo.platform.domain.eves.v1.enums;
+
+option java_multiple_files = true;
+option java_package = "com.stellantis.apis.eves.enums";
+
+enum ParkingType {
+  PARKING_TYPE_UNSPECIFIED = 0;
+  PARKING_TYPE_PARKING_GARAGE = 1;
+  PARKING_TYPE_PARKING_LOT = 2;
+  PARKING_TYPE_ON_DRIVEWAY = 3;
+  PARKING_TYPE_ON_STREET = 4;
+  PARKING_TYPE_UNDERGROUND_GARAGE = 5;
+  PARKING_TYPE_ALONG_MOTORWAY = 6;
+}

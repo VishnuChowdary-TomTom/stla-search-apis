@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package stellantis.geo.platform.domain.eves.v1.valueobject;
+
+option java_multiple_files = true;
+option java_package = "com.stellantis.apis.eves.valueobject";
+
+message PriceComponent {
+  string type = 1;
+  float price = 2;
+  float vat = 3;
+  int32 stepSize = 4;
+  optional string other_fields_json = 5;
+}

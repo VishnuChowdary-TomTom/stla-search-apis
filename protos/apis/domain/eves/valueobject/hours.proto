@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package stellantis.geo.platform.domain.eves.v1.valueobject;
+
+import "domain/eves/valueobject/exceptional_period.proto";
+import "domain/eves/valueobject/regular_hours.proto";
+
+option java_multiple_files = true;
+option java_package = "com.stellantis.apis.eves.valueobject";
+
+message Hours {
+  bool twenty_four_seven = 1;
+  repeated RegularHours regular_hours = 2;
+  repeated ExceptionalPeriod exceptional_openings = 3;
+  repeated ExceptionalPeriod exceptional_closings = 4;
+  optional string other_fields_json = 5;
+}

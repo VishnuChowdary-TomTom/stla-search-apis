@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+package stellantis.geo.platform.domain.eves.v1.enums;
+
+option java_multiple_files = true;
+option java_package = "com.stellantis.apis.eves.enums";
+
+enum Facility {
+  FACILITY_UNSPECIFIED = 0;
+  FACILITY_RESTAURANT = 1;
+  FACILITY_CAFE = 2;
+  FACILITY_MALL = 3;
+  FACILITY_SUPERMARKET = 4;
+  FACILITY_SPORT = 5;
+  FACILITY_RECREATION_AREA = 6;
+  FACILITY_NATURE = 7;
+  FACILITY_MUSEUM = 8;
+  FACILITY_BIKE_SHARING = 9;
+  FACILITY_BUS_STOP = 10;
+  FACILITY_TAXI_STAND = 11;
+  FACILITY_TRAM_STOP = 12;
+  FACILITY_METRO_STATION = 13;
+  FACILITY_TRAIN_STATION = 14;
+  FACILITY_AIRPORT = 15;
+  FACILITY_PARKING_LOT = 16;
+  FACILITY_CARPOOL_PARKING = 17;
+  FACILITY_FUEL_STATION = 18;
+  FACILITY_WIFI = 19;
+  FACILITY_HOTEL = 20;
+}

@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package stellantis.geo.platform.domain.eves.v1.valueobject;
+
+import "domain/eves/enums/image_category.proto";
+
+option java_multiple_files = true;
+option java_package = "com.stellantis.apis.eves.valueobject";
+
+message Image {
+  string url = 1;
+  string thumbnail = 2;
+  enums.ImageCategory category = 3;
+  string type = 4;
+  string width = 5;
+  string height = 6;
+  optional string other_fields_json = 7;
+}

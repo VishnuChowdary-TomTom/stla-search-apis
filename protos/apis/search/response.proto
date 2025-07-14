@@ -1,0 +1,145 @@
+syntax = "proto3";
+
+package stellantis.geo.platform.search.v1;
+
+import "common/coordinate.proto";
+import "common/date_time_descriptor.proto";
+import "common/money.proto";
+import "common/time_zone.proto";
+import "domain/dealerships/dealership.proto";
+import "domain/eves/ev.proto";
+import "domain/parking/parking.proto";
+import "search/enums.proto";
+import "search/dynamic_criteria.proto";
+import "search/structs.proto";
+
+
+option java_multiple_files = true;
+option java_package = "com.stellantis.apis.search";
+
+message SearchResponse {
+  repeated Destination findings = 1;
+}
+
+message GetByIdResponse {
+  repeated Destination destinations = 1;
+}
+
+message GetDynamicSearchResponse {
+  oneof data_layer_criteria {
+    EvChargerDynamicCriteria ev_charger_dynamic_criteria = 1;
+    DealershipDynamicCriteria dealership_dynamic_criteria = 2;
+  }
+}
+
+message Destination {
+  string id = 1;
+  string name = 2;
+  repeated PlaceType types = 3;
+
+  common.v1.Coordinate coordinate = 4;
+
+  optional Address address = 5;
+  optional PhoneNumber phone_number = 6 [deprecated = true];
+
+  optional double rating = 7 [deprecated = true];
+  optional Opens opens = 8;
+  optional PriceLevel price_level = 9;
+  optional FuelStation fuel_station = 10;
+  optional domain.eves.v1.EvChargingStation ev_chargers_station = 11;
+  optional domain.parking.v1.Parking parking = 12;
+  repeated PlaceType amenities = 13;
+  optional double beeline_distance_meters = 14;
+  optional UserRatings user_ratings = 15;
+  optional AccessibilityFacilities accessibility_facilities = 16;
+  optional domain.dealerships.v1.Dealership dealership = 17;
+  optional ContactInfo contact_info = 18;
+  repeated Photo photos = 19;
+
+  optional common.v1.TimeZone time_zone = 99;
+}
+
+message PlaceType {
+  /*
+    The types of the place. A list cannot be empty.
+    Types are related to Google types and all possible values are listed here:
+    https://developers.google.com/maps/documentation/places/web-service/place-types
+  */
+  string type = 1;
+}
+
+message PhoneNumber {
+  string number = 1;
+}
+
+message ContactInfo {
+  string phone_number = 1;
+  string email_address = 2;
+  repeated string additional_phone_numbers = 3;
+  repeated string additional_email_addresses = 4;
+}
+
+message Opens {
+  bool open_now = 1;
+  repeated common.v1.DateTimeDescriptor week_openings = 2;
+}
+
+message FuelStation {
+  message Fuel {
+    FuelType type = 1;
+    optional common.v1.Money price = 2;
+    optional string sub_type = 3;
+  }
+
+  repeated Fuel fuels = 1;
+}
+
+message UserRatings {
+  double rating = 1;
+  int32 num_of_reviews = 2;
+}
+
+message AccessibilityFacilities {
+  bool has_accessibility_facilities = 1;
+}
+
+/*
+  Photo information for a destination
+ */
+message Photo {
+  /*
+   URI to download photo
+   */
+  string uri = 1;
+
+  /*
+    The width of the photo that is available in server
+   */
+  int32 width = 2;
+
+  /*
+    The height of the photo that is available in server
+   */
+  int32 height = 3;
+
+  /*
+    Provides information about photo authors
+   */
+  repeated Author authors = 4;
+}
+
+message Author {
+  /*
+   Name of the author of the Photo or Review.
+   */
+  string display_name = 1;
+  /*
+   URI of the author of the Photo or Review.
+  */
+  optional string uri = 2;
+
+  /*
+   Profile photo URI of the author of the Photo or Review.
+   */
+  optional string photo_uri = 3;
+}

@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+package stellantis.geo.platform.domain.eves.v1.valueobject;
+
+import "domain/eves/enums/day_of_week.proto";
+
+option java_multiple_files = true;
+option java_package = "com.stellantis.apis.eves.valueobject";
+
+message TariffRestrictions {
+  string startTime = 1;
+  string endTime = 2;
+  string startDate = 3;
+  string endDate = 4;
+  float minKwh = 5;
+  float maxKwh = 6;
+  float minCurrent = 7;
+  float maxCurrent = 8;
+  float minPower = 9;
+  float maxPower = 10;
+  int32 minDuration = 11;
+  int32 maxDuration = 12;
+  repeated enums.DayOfWeek dayOfWeek = 13;
+  string reservation = 14;
+  optional string other_fields_json = 15;
+}

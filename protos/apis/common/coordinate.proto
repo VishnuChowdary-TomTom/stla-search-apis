@@ -1,0 +1,41 @@
+syntax = "proto3";
+
+package stellantis.geo.platform.common.v1;
+
+import "buf/validate/validate.proto";
+
+option java_multiple_files = true;
+option java_package = "com.stellantis.apis.common";
+
+message Coordinate {
+  // Precision up to 64 bits. For data transport purposes only.
+  double latitude = 1 [
+    (buf.validate.field).double.gte = -90.0,
+    (buf.validate.field).double.lte = 90.0
+  ];
+
+  // Precision up to 64 bits. For data transport purposes only.
+  double longitude = 2 [
+    (buf.validate.field).double.gte = -180.0,
+    (buf.validate.field).double.lte = 180.0
+  ];
+}
+
+message Boundingbox {
+  double south = 1 [
+    (buf.validate.field).double.gte = -90.0,
+    (buf.validate.field).double.lte = 90.0
+  ]; // The incident bounding box south latitude coordinate as float.
+  double west = 2 [
+    (buf.validate.field).double.gte = -180.0,
+    (buf.validate.field).double.lte = 180.0
+  ]; // The incident bounding box west longitude coordinate as float.
+  double north = 3 [
+    (buf.validate.field).double.gte = -90.0,
+    (buf.validate.field).double.lte = 90.0
+  ]; // The incident bounding box north latitude coordinate as float.
+  double east = 4 [
+    (buf.validate.field).double.gte = -180.0,
+    (buf.validate.field).double.lte = 180.0
+  ]; // The incident bounding box east longitude coordinate as float.
+}

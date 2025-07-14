@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+package stellantis.geo.platform.search.v1;
+
+option java_multiple_files = true;
+option java_package = "com.stellantis.apis.search";
+
+enum PriceLevel {
+  PRICE_LEVEL_UNSPECIFIED = 0;
+  PRICE_LEVEL_FREE = 1;
+  PRICE_LEVEL_INEXPENSIVE = 2;
+  PRICE_LEVEL_MODERATE = 3;
+  PRICE_LEVEL_EXPENSIVE = 4;
+  PRICE_LEVEL_VERY_EXPENSIVE = 5;
+}
+
+enum FuelType {
+  FUEL_TYPE_UNSPECIFIED = 0;
+  FUEL_TYPE_DIESEL = 1;
+  FUEL_TYPE_GASOLINE = 2;
+  FUEL_TYPE_CNG = 3;
+  FUEL_TYPE_LPG = 4;
+  FUEL_TYPE_HYDROGEN = 5;
+}
+
+enum SortingRankBias {
+  SORTING_RANK_BIAS_UNSPECIFIED = 0;
+  SORTING_RANK_BIAS_DISTANCE = 1;
+  //SORTING_RANK_BIAS_RELEVANCE = 2;
+}

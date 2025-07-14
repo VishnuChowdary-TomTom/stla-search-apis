@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package stellantis.geo.platform.domain.eves.v1.enums;
+
+option java_multiple_files = true;
+option java_package = "com.stellantis.apis.eves.enums";
+
+enum EnergySourceCategory {
+  ENERGY_SOURCE_CATEGORY_UNSPECIFIED = 0;
+  ENERGY_SOURCE_CATEGORY_GENERAL_FOSSIL = 1;
+  ENERGY_SOURCE_CATEGORY_COAL = 2;
+  ENERGY_SOURCE_CATEGORY_GAS = 3;
+  ENERGY_SOURCE_CATEGORY_GENERAL_GREEN = 4;
+  ENERGY_SOURCE_CATEGORY_SOLAR = 5;
+  ENERGY_SOURCE_CATEGORY_WIND = 6;
+  ENERGY_SOURCE_CATEGORY_WATER = 7;
+  ENERGY_SOURCE_CATEGORY_NUCLEAR = 8;
+}

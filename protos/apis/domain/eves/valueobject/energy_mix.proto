@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package stellantis.geo.platform.domain.eves.v1.valueobject;
+
+import "domain/eves/valueobject/energy_source.proto";
+import "domain/eves/valueobject/environmental_impact.proto";
+
+option java_multiple_files = true;
+option java_package = "com.stellantis.apis.eves.valueobject";
+
+message EnergyMix {
+  bool is_green_energy = 1;
+  repeated EnergySource energy_sources = 2;
+  repeated EnvironmentalImpact environ_impact = 3;
+  string supplier_name = 4;
+  string energy_product_name = 5;
+  optional string other_fields_json = 6;
+}

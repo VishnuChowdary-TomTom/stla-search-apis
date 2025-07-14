@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package stellantis.geo.platform.search.v1;
+
+option java_multiple_files = true;
+option java_package = "com.stellantis.apis.search";
+
+
+message EvChargerDynamicCriteria {
+  repeated DynamicCriteriaEntry provider_criteria = 1;
+  string revision_tag = 2;
+}
+
+message DealershipDynamicCriteria {
+  repeated DynamicCriteriaEntry car_brand_criteria = 1;
+  string revision_tag = 2;
+}
+
+message DynamicCriteriaEntry {
+  string value = 1;
+  string label = 2;
+}

@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package stellantis.geo.platform.common.v1;
+
+option java_multiple_files = true;
+option java_package = "com.stellantis.apis.common";
+
+// ISO 8601
+message DateTimeDescriptor {
+  DateTimeDescriptorType type = 1;
+  string value = 2;
+}
+
+enum DateTimeDescriptorType {
+  DATE_TIME_DESCRIPTOR_TYPE_UNSPECIFIED = 0;
+  DATE_TIME_DESCRIPTOR_TYPE_DATE = 1;
+  DATE_TIME_DESCRIPTOR_TYPE_TIME = 2;
+  DATE_TIME_DESCRIPTOR_TYPE_DATE_TIME = 3;
+  DATE_TIME_DESCRIPTOR_TYPE_DURATION = 4;
+  DATE_TIME_DESCRIPTOR_TYPE_INTERVAL = 5;
+}

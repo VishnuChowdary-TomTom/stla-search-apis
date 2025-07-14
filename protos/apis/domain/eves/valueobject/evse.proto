@@ -1,0 +1,34 @@
+syntax = "proto3";
+
+package stellantis.geo.platform.domain.eves.v1.valueobject;
+
+import "common/coordinate.proto";
+import "domain/eves/enums/capability.proto";
+import "domain/eves/enums/parking_restriction.proto";
+import "domain/eves/enums/status.proto";
+import "domain/eves/valueobject/connector.proto";
+import "domain/eves/valueobject/display_text.proto";
+import "domain/eves/valueobject/image.proto";
+import "domain/eves/valueobject/status_schedule.proto";
+import "google/protobuf/timestamp.proto";
+
+option java_multiple_files = true;
+option java_package = "com.stellantis.apis.eves.valueobject";
+
+message Evse {
+  string uid = 1;
+  string evse_id = 2;
+  enums.Status status = 3;
+  repeated StatusSchedule status_schedule = 4;
+  repeated enums.Capability capabilities = 5;
+  repeated Connector connectors = 6;
+  string floor_level = 7;
+  common.v1.Coordinate coordinates = 8;
+  string physical_reference = 9;
+  repeated DisplayText directions = 10;
+  repeated enums.ParkingRestriction parking_restrictions = 11;
+  repeated Image images = 12;
+  google.protobuf.Timestamp last_updated = 13;
+  repeated string payment_methods = 14;
+  optional string other_fields_json = 15;
+}

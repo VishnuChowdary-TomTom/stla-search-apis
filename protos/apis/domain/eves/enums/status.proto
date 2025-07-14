@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package stellantis.geo.platform.domain.eves.v1.enums;
+
+option java_multiple_files = true;
+option java_package = "com.stellantis.apis.eves.enums";
+
+enum Status {
+  STATUS_UNSPECIFIED = 0;
+  STATUS_AVAILABLE = 1;
+  STATUS_BLOCKED = 2;
+  STATUS_CHARGING = 3;
+  STATUS_INOPERATIVE = 4;
+  STATUS_OUT_OF_ORDER = 5;
+  STATUS_PLANNED = 6;
+  STATUS_REMOVED = 7;
+  STATUS_RESERVED = 8;
+  STATUS_UNKNOWN = 9;
+}

@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package stellantis.geo.platform.domain.eves.v1.valueobject;
+
+import "domain/eves/valueobject/display_text.proto";
+
+option java_multiple_files = true;
+option java_package = "com.stellantis.apis.eves.valueobject";
+
+message AdditionalGeoLocation {
+  string latitude = 1;
+  string longitude = 2;
+  DisplayText name = 3;
+  optional string other_fields_json = 4;
+}

@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+package stellantis.geo.platform.domain.parking.v1;
+
+option java_multiple_files = true;
+option java_package = "com.stellantis.apis.parking";
+
+message Parking {
+  ParkingType type = 1;
+  optional Fee fee = 2;
+}
+
+enum ParkingType {
+  PARKING_TYPE_UNSPECIFIED = 0;
+  PARKING_TYPE_PUBLIC = 1;
+  PARKING_TYPE_STADIUM = 2;
+  PARKING_TYPE_AIRPORT = 3;
+  PARKING_TYPE_EVENT = 4;
+  PARKING_TYPE_STREET = 5;
+  PARKING_TYPE_CARPOOL = 6;
+}
+
+enum Fee {
+  FEE_UNSPECIFIED = 0;
+  FREE = 1;
+  PAID = 2;
+}

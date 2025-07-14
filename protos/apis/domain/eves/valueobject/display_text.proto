@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+package stellantis.geo.platform.domain.eves.v1.valueobject;
+
+option java_multiple_files = true;
+option java_package = "com.stellantis.apis.eves.valueobject";
+
+message DisplayText {
+  string language = 1;
+  string text = 2;
+  optional string other_fields_json = 3;
+}

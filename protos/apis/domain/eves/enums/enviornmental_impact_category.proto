@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+package stellantis.geo.platform.domain.eves.v1.enums;
+
+option java_multiple_files = true;
+option java_package = "com.stellantis.apis.eves.enums";
+
+enum EnvironmentalImpactCategory {
+  ENVIRONMENTAL_IMPACT_CATEGORY_UNSPECIFIED = 0;
+  ENVIRONMENTAL_IMPACT_CATEGORY_NUCLEAR_WASTE = 1;
+  ENVIRONMENTAL_IMPACT_CATEGORY_CARBON_DIOXIDE = 2;
+}

@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+package stellantis.geo.platform.domain.eves.v1.enums;
+
+option java_multiple_files = true;
+option java_package = "com.stellantis.apis.eves.enums";
+
+enum ReservationRestrictionType {
+  RESERVATION_RESTRICTION_TYPE_UNSPECIFIED = 0;
+  RESERVATION_RESTRICTION_TYPE_RESERVATION = 1;
+  RESERVATION_RESTRICTION_TYPE_RESERVATION_EXPIRES = 2;
+}

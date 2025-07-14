@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package stellantis.geo.platform.domain.eves.v1.valueobject;
+
+import "domain/eves/valueobject/image.proto";
+
+option java_multiple_files = true;
+option java_package = "com.stellantis.apis.eves.valueobject";
+
+message BusinessDetails {
+  string name = 1;
+  string website = 2;
+  Image logo = 3;
+  optional string other_fields_json = 4;
+}

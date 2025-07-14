@@ -1,0 +1,207 @@
+syntax = "proto3";
+
+package stellantis.geo.platform.search.v1;
+
+import "buf/validate/validate.proto";
+import "common/coordinate.proto";
+import "common/date_time_descriptor.proto";
+import "domain/eves/ev.proto";
+import "domain/parking/parking.proto";
+import "search/enums.proto";
+import "search/structs.proto";
+import "common/data_layer.proto";
+import "search/dynamic_criteria.proto";
+
+option java_multiple_files = true;
+option java_package = "com.stellantis.apis.search";
+
+message SearchRequest {
+  RequestParameters request_parameters = 1;
+
+  optional string text_query = 2;
+  optional Location location_bias = 3;
+  optional Criteria search_criteria = 4;
+}
+
+message GetByIdRequest {
+  repeated string ids = 1;
+  RequestParameters request_parameters = 2;
+}
+
+message GetDynamicSearchCriteriaRequest {
+  common.v1.DataLayerId data_layer_id = 1;
+  optional common.v1.Coordinate requester_position = 2;
+  optional Location location_bias = 3;
+  LanguageParameters language_code = 4;
+}
+
+message Location {
+  oneof where {
+    Vicinity in_vicinity = 1;
+    Route along_route = 2;
+    Polygon within_polygon = 3;
+  }
+}
+
+message Criteria {
+  optional PlaceTypeCriteria place_type_criteria = 1;
+  optional OpenCriteria open_criteria = 2;
+  optional RatingCriteria rating_criteria = 3;
+  optional FuelCriteria fuel_criteria = 4;
+  optional EvChargerCriteria ev_charge_criteria = 5;
+  optional PriceLevelCriteria price_level_criteria = 6;
+  optional ParkingCriteria parking_criteria = 7;
+  optional AmenityCriteria amenities_criteria = 8;
+  optional DealershipCriteria dealership_criteria = 9;
+}
+
+message PlaceTypeCriteria {
+  repeated string place_types = 1;
+  // Check if value is one of possible types
+  option (buf.validate.message).cel = {
+    id: "place_types_in_values"
+    message: "place type must be supported value"
+    expression:
+      "this.place_types.all(pt, pt in ["
+      "'american_restaurant',"
+      "'athletic_field',"
+      "'atm',"
+      "'bank',"
+      "'bar',"
+      "'barbecue_restaurant',"
+      "'bed_and_breakfast',"
+      "'brazilian_restaurant',"
+      "'breakfast_restaurant',"
+      "'brunch_restaurant',"
+      "'cafe',"
+      "'car_dealer',"
+      "'car_repair',"
+      "'chinese_restaurant',"
+      "'dog_park',"
+      "'electric_vehicle_charging_station',"
+      "'extended_stay_hotel',"
+      "'fast_food_restaurant',"
+      "'fitness_center',"
+      "'food',"
+      "'french_restaurant',"
+      "'gas_station',"
+      "'greek_restaurant',"
+      "'grocery_store',"
+      "'gym',"
+      "'hamburger_restaurant',"
+      "'hiking_area',"
+      "'hospital',"
+      "'hostel',"
+      "'hotel',"
+      "'indian_restaurant',"
+      "'indonesian_restaurant',"
+      "'italian_restaurant',"
+      "'japanese_restaurant',"
+      "'korean_restaurant',"
+      "'lebanese_restaurant',"
+      "'marina',"
+      "'mediterranean_restaurant',"
+      "'mexican_restaurant',"
+      "'middle_eastern_restaurant',"
+      "'motel',"
+      "'movie_theater',"
+      "'national_park',"
+      "'park',"
+      "'park_and_ride',"
+      "'parking',"
+      "'pharmacy',"
+      "'pizza_restaurant',"
+      "'playground',"
+      "'post_office',"
+      "'postal_town',"
+      "'ramen_restaurant',"
+      "'resort_hotel',"
+      "'rest_stop',"
+      "'restaurant',"
+      "'rv_park',"
+      "'seafood_restaurant',"
+      "'spanish_restaurant',"
+      "'sports_club',"
+      "'sports_complex',"
+      "'steak_house',"
+      "'sushi_restaurant',"
+      "'thai_restaurant',"
+      "'tourist_attraction',"
+      "'truck_stop',"
+      "'turkish_restaurant',"
+      "'vegan_restaurant',"
+      "'vegetarian_restaurant',"
+      "'vietnamese_restaurant'"
+      "])"
+  };
+}
+
+message OpenCriteria {
+  oneof open {
+    bool open_now = 1;
+    common.v1.DateTimeDescriptor on_time = 2 [(buf.validate.field).enum = {
+      in: [3]
+    }];
+  }
+}
+
+message FuelCriteria {
+  FuelType fuel = 1;
+}
+
+message EvChargerCriteria {
+  repeated domain.eves.v1.EvConnectorType connector_types = 1;
+  optional domain.eves.v1.EvStatus status = 2;
+  optional string emsp_value = 3;
+  optional string operator = 4;
+
+  optional double min_charge_rate_kw = 5;
+
+  repeated domain.eves.v1.EvChargersFeature features = 6;
+  repeated domain.eves.v1.EvChargersPaymentMethod payment_methods = 7;
+
+  optional double max_charge_rate_kw = 8;
+
+  optional bool open_twenty_four_seven = 9;
+}
+
+
+message RatingCriteria {
+  double rating = 1 [
+    (buf.validate.field).double.gte = 0.0,
+    (buf.validate.field).double.lte = 5.0
+  ];
+}
+
+message PriceLevelCriteria {
+  repeated PriceLevel price_levels = 1;
+}
+
+message ParkingCriteria {
+  domain.parking.v1.ParkingType parking_type = 1;
+  domain.parking.v1.Fee fee = 2;
+}
+
+message AmenityCriteria {
+  repeated string place_types = 1;
+}
+
+message DealershipCriteria {
+  DynamicCriteriaEntry car_brand = 1;
+}
+
+message RequestParameters {
+  common.v1.DateTimeDescriptor request_time = 2 [(buf.validate.field).enum = {
+    in: [3]
+  }];
+  common.v1.Coordinate requester_position = 3;
+
+  string language_code = 4;
+  optional int32 response_limit = 5;
+  repeated SortingRankBias sorting_rank_biases = 6;
+}
+
+message LanguageParameters {
+  string language_code = 1;
+  optional string script_code = 2;
+}

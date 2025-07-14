@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package stellantis.geo.platform.common.v1;
+
+option java_multiple_files = true;
+option java_package = "com.stellantis.apis.common";
+
+// Represents a time zone from the
+// [IANA Time Zone Database](https://www.iana.org/time-zones).
+message TimeZone {
+  // IANA Time Zone Database time zone, e.g. "America/New_York"
+  string id = 1;
+}

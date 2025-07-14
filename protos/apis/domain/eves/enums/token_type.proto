@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package stellantis.geo.platform.domain.eves.v1.enums;
+
+option java_multiple_files = true;
+option java_package = "com.stellantis.apis.eves.enums";
+
+enum TokenType {
+  TOKEN_TYPE_UNSPECIFIED = 0;
+  TOKEN_TYPE_APP_USER = 1;
+  TOKEN_TYPE_OTHER = 2;
+  TOKEN_TYPE_RFID = 3;
+  TOKEN_TYPE_AD_HOC_USER = 4;
+}

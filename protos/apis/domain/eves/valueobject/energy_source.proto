@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package stellantis.geo.platform.domain.eves.v1.valueobject;
+
+import "domain/eves/enums/energy_source_category.proto";
+
+option java_multiple_files = true;
+option java_package = "com.stellantis.apis.eves.valueobject";
+
+message EnergySource {
+  enums.EnergySourceCategory source = 1;
+  float percentage = 2;
+  optional string other_fields_json = 3;
+}
